@@ -12,7 +12,7 @@
 *
 ******************************************************************************/
 
-//// GIT HUB LINK:
+//// GIT HUB LINK: https://github.com/jhew7/ADS103-A4-HEW_Jeremy.git
 
 #include <iostream>
 #include <string>
