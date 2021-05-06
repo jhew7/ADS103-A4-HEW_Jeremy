@@ -139,7 +139,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="MenuFunctions.cpp" />
+    <ClCompile Include="PVC.cpp" />
+    <ClCompile Include="PVP.cpp" />
     <ClCompile Include="Source.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="MenuFunctions.h" />
+    <ClInclude Include="PVC.h" />
+    <ClInclude Include="PVP.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
