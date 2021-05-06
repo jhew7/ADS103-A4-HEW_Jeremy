@@ -23,12 +23,10 @@
 
 using namespace std;
 
-char position[10] = { 'o','1','2','3','4','5','6','7','8','9' };
-//int gameProgress();
-void drawBoard();
+char position[11] = { 'o','1','2','3','4','5','6','7','8','9','q' };
+
 int displayMenuScreen();
-//int playPVP();
-//int playPVC();
+int checkWin(int gameResult);
 void showScoreBoard();
 void displayExitScreen();
 
@@ -96,14 +94,14 @@ int displayMenuScreen()
 }
 
 // Draw the gameboard
-void drawBoard()
+void drawBoardPVP(string P1Name, string P2Name)
 {
 	system("cls");
 	cout << "\t\t===========" << endl;
 	cout << "\t\tTic Tac Toe" << endl;
 	cout << "\t\t===========" << endl << endl;
 
-	cout << "       Player 1 [X]  -  Player 2 [O]" << endl << endl;
+	cout << "\t\t  " << P1Name << " [X]" << endl << "\t\t  - vs. -" << endl << "\t\t " << P2Name << " [O]" << endl << endl;
 	cout << endl;
 
 	cout << "             " << "     |     |     " << endl;
@@ -122,23 +120,188 @@ void drawBoard()
 	cout << "             " << "     |     |     " << endl << endl;
 }
 
-//// Generate our 3 random cards/wheel outputs.
-//// We want each wheel to end up with a random number
-//// Outcome = a number form 2 to 7 inclusive
-//int getRandNum2to7(int rangeMax)
-//{
-//	// 1. Generate random numbers between 2 and 7
-//	// 2. Shift that number to something in the range of 2 - 7 (because default random is  in the range of 0 - std::RAND_MAX)
-//	int rand2to7;
-//
-//	rand2to7 = (rand() % 6) + 2;
-//
-//	return rand2to7;
-//}
+void drawBoardPVC(string P1Name, string computerName)
+{
+	system("cls");
+	cout << "\t\t===========" << endl;
+	cout << "\t\tTic Tac Toe" << endl;
+	cout << "\t\t===========" << endl << endl;
 
-// Set bet multiplier based on win / loss by matching random numbers
-// Mrs Sing only gives back multipliers
-int gameProgress(int gameResult)
+	cout << "\t\t  " << P1Name << " [X]" << endl << "\t\t  - vs. -" << endl << "\t\t " << computerName << " [O]" << endl << endl;
+	cout << endl;
+
+	cout << "             " << "     |     |     " << endl;
+	cout << "             " << "  " << position[1] << "  |  " << position[2] << "  |  " << position[3] << endl;
+
+	cout << "             " << "_____|_____|_____" << endl;
+	cout << "             " << "     |     |     " << endl;
+
+	cout << "             " << "  " << position[4] << "  |  " << position[5] << "  |  " << position[6] << endl;
+
+	cout << "             " << "_____|_____|_____" << endl;
+	cout << "             " << "     |     |     " << endl;
+
+	cout << "             " << "  " << position[7] << "  |  " << position[8] << "  |  " << position[9] << endl;
+
+	cout << "             " << "     |     |     " << endl << endl;
+}
+
+int getRandNum1to9()
+{
+	// 1. Generate random numbers between 2 and 7
+	// 2. Shift that number to something in the range of 2 - 7 (because default random is  in the range of 0 - std::RAND_MAX)
+	int rand1to9;
+	srand((unsigned)time(0));
+	rand1to9 = (rand() % 9) + 1;
+
+	return rand1to9;
+}
+
+void clearBoard()
+{
+	for (int i = 0; i < 10; i++)
+		position[i] = '0' + i;
+}
+
+// Play Player vs Player
+int playPVP(int gameResult)
+{
+	int player = 1, i, choice;
+	char playerMove;
+
+	cout << "\t\t===========" << endl;
+	cout << "\t\tTic Tac Toe" << endl;
+	cout << "\t\t===========" << endl << endl;
+
+	cout << "\t   Player Name Selection" << endl << endl << endl << endl;
+
+	string P1Name = "Player 1";  //Default name
+	string P2Name = "Player 2";
+	int P1Move = 1;
+	int P2Move = 2;
+
+	cout << "  Player 1 - Select your name: ";
+	cin >> P1Name;
+	cout << "  Player 2 - Select your name: ";
+	cin >> P2Name;
+
+	cout << "Hello " << P1Name << " & " << P2Name << " , let's play some Tic Tac Toe!";
+
+	do
+	{
+		drawBoardPVP(P1Name, P2Name);
+		//player = (player % 2) ? 1 : 2;
+		if (player % 2)
+		{
+			player = 1; // Odd
+			player = P1Move;
+			cout << endl << "  Your move " << P1Name << ":  ";
+			cin >> choice;
+		}
+		else
+		{
+			player = 2;
+			player = P2Move;
+			cout << endl << "  Your move " << P2Name << ":  ";
+			cin >> choice;
+		}
+		
+		/*cout << "\nPlayer " << player << ", enter a number:  ";
+		cin >> choice;*/
+
+		//playerMove = (player == 1) ? 'X' : 'O';
+
+		if (player == 1 && player == P1Move)
+		{
+			playerMove = 'X';
+		}
+		else if (player == 2 && player == P2Move)
+		{
+			playerMove = 'O';
+		}
+
+		if (choice == 1 && position[1] == '1')
+		{
+			position[1] = playerMove;
+		}
+		else if (choice == 2 && position[2] == '2')
+		{
+			position[2] = playerMove;
+		}
+
+		else if (choice == 3 && position[3] == '3')
+		{
+			position[3] = playerMove;
+		}
+
+		else if (choice == 4 && position[4] == '4')
+		{
+			position[4] = playerMove;
+		}
+
+		else if (choice == 5 && position[5] == '5')
+		{
+			position[5] = playerMove;
+		}
+
+		else if (choice == 6 && position[6] == '6')
+		{
+			position[6] = playerMove;
+		}
+
+		else if (choice == 7 && position[7] == '7')
+		{
+			position[7] = playerMove;
+		}
+
+		else if (choice == 8 && position[8] == '8')
+		{
+			position[8] = playerMove;
+		}
+
+		else if (choice == 9 && position[9] == '9')
+		{
+			position[9] = playerMove;
+		}
+		else
+		{
+			cout << endl << "Invalid move!";
+			cout << endl << "Hit Enter and try again.";
+			player--;
+			cin.ignore();
+			cin.get();
+		}
+
+		i = checkWin(gameResult);
+		player++;
+
+	} while (i == -1);
+
+	drawBoardPVP(P1Name, P2Name);
+
+	if (i == 1)
+	{
+		if (playerMove == 'X')
+		{
+			cout << endl << "  " << P1Name << " you are the winner!";
+		}
+		else
+		{
+			cout << endl << "  " << P2Name << " you are the winner!";
+		}
+	}
+	else
+	{
+		cout << " DRAW!";
+	}
+
+	cin.ignore();
+	cin.get();
+	return gameResult;
+}
+
+// Game Results
+int checkWin(int gameResult)
 {
 	if (position[1] == position[2] && position[2] == position[3])
 	{
@@ -194,21 +357,58 @@ int gameProgress(int gameResult)
 	}
 }
 
-// Play Player vs Player
-int playPVP(int gameResult)
+int playPVC(int gameResult)
 {
+	system("cls");
+	clearBoard();
 	int player = 1, i, choice;
 	char playerMove;
 
+	cout << "\t\t===========" << endl;
+	cout << "\t\tTic Tac Toe" << endl;
+	cout << "\t\t===========" << endl << endl;
+
+	cout << "\t   Player Name Selection" << endl << endl << endl << endl;
+
+	string P1Name = "Player 1";  //Default name
+	string computerName = "Consol";
+	int P1Move = 1;
+	int computerMove = 2;
+
+	cout << "  Player 1 - Select your name: ";
+	cin >> P1Name;
+	
+	cout << "Hello " << P1Name << " & " << computerName << " , let's play some Tic Tac Toe!";
+
 	do
 	{
-		drawBoard();
-		player = (player % 2) ? 1 : 2;
+		drawBoardPVC(P1Name, computerName);
+		//player = (player % 2) ? 1 : 2;
+		if (player % 2)
+		{
+			player = 1; // Odd
+			cout << endl << "  Your move " << P1Name << ":  ";
+			cin >> choice;
+		}
+		else
+		{
+			player = 2;
+			choice = getRandNum1to9();
+			cout << endl << "  Your move " << computerName << ":  " << choice;
+			Sleep(1200);
+		}
 
-		cout << "\nPlayer " << player << ", enter a number:  ";
-		cin >> choice;
-
-		playerMove = (player == 1) ? 'X' : 'O';
+		/*cout << "\nPlayer " << player << ", enter a number:  ";
+		cin >> choice;*/
+		
+		if (player == 1 && player == P1Move)
+		{
+			playerMove = 'X';
+		}
+		else if (player == 2 && player == computerMove)
+		{
+			playerMove = 'O';
+		}
 
 		if (choice == 1 && position[1] == '1')
 		{
@@ -253,35 +453,50 @@ int playPVP(int gameResult)
 		{
 			position[9] = playerMove;
 		}
+
+		else if (choice == 10 && position[10] == 'q')
+		{
+			displayMenuScreen();
+		}
+
 		else
 		{
 			cout << endl << "Invalid move!";
-			cout << endl << "Hit Enter and try again.";
+			
+			Sleep(800);
 			player--;
-			cin.ignore();
-			cin.get();
+			//cin.ignore();
+			//cin.get();
 		}
 
-		i = gameProgress(gameResult);
+		i = checkWin(gameResult);
 		player++;
 
 	} while (i == -1);
-
-	drawBoard();
+	
+	drawBoardPVC(P1Name, computerName);
 
 	if (i == 1)
 	{
-		cout << "==>\aPlayer " << --player << " win ";
+		if (playerMove == 'X')
+		{
+			cout << endl << "  " << P1Name << " you are the winner!";
+		}
+		else
+		{
+			cout << endl << "  " << computerName << " you are the winner!";
+		}
 	}
 	else
 	{
-		cout << "==>\aGame draw";
+		cout << " DRAW!";
 	}
 
 	cin.ignore();
 	cin.get();
 	return gameResult;
 }
+
 
 // Displays Credits
 void showScoreBoard()
@@ -330,11 +545,12 @@ int main()
 			system("cls");
 			player = playPVP(gameResult);
 		}
-		/*if (choice == MenuChoice::PLAYPVC)
+		if (choice == MenuChoice::PLAYPVC)
 		{
 			system("cls");
 			player = playPVC(gameResult);
-		}*/
+			system("cls");
+		}
 		else if (choice == MenuChoice::SCOREBOARD)
 		{
 			system("cls");
