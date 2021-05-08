@@ -1,11 +1,13 @@
 #include "MenuFunctions.h"
 #include "PVP.h"
 #include "PVC.h"
+#include "CVC.h"
 
 enum MenuChoice
 {
 	PLAYPVP = 1,
 	PLAYPVC,
+	PLAYCVC,
 	SCOREBOARD,
 	QUIT,
 	CHOICES_END
@@ -35,6 +37,13 @@ int MenuFunctions::menuChoices()
 			system("cls");
 			PVC playPVC;
 			playPVC.playPVC(gameResult);
+			system("cls");
+		}
+		if (choice == MenuChoice::PLAYCVC)
+		{
+			system("cls");
+			CVC playCVC;
+			playCVC.playCVC(gameResult);
 			system("cls");
 		}
 		else if (choice == MenuChoice::SCOREBOARD)
@@ -71,8 +80,9 @@ int MenuFunctions::displayMenuScreen()
 
 		cout << "\t" << "1. Play - Player vs. Player\n";
 		cout << "\t" << "2. Play - Player vs. Computer\n";
-		cout << "\t" << "3. Scoreboard\n";
-		cout << "\t" << "4. Quit\n";
+		cout << "\t" << "3. Play - Computer vs. Computer\n";
+		cout << "\t" << "4. Scoreboard\n";
+		cout << "\t" << "5. Quit\n";
 
 		error.empty();
 

@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <string>
+#include <windows.h>			// for the sleep function
 #include <conio.h>				// for _getch()
 
 using namespace std;

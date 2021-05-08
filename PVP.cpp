@@ -189,10 +189,10 @@ int PVP::playPVP(int gameResult)
 		else
 		{
 			cout << endl << "Invalid move!";
-			cout << endl << "Hit Enter and try again.";
+			Sleep(300);
 			player--;
-			cin.ignore();
-			cin.get();
+			//cin.ignore();
+			//cin.get();
 			// couldn't figure out how to stop it crashing if a letter is input and not a number
 		}
 

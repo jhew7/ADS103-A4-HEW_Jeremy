@@ -1,11 +1,10 @@
-#include <chrono>		//time
-#include "PVC.h"
-#include "MenuFunctions.h"
+#include "CVC.h"
 
-int PVC::getRandNum1to9()
+
+int CVC::getRandNum1to9()
 {
 	// 1. Generate random numbers between 1 and 9
-	// 2. Shift that number to something in the range of 1 - 9 (because default random is  in the range of 0 - std::RAND_MAX)
+	 // 2. Shift that number to something in the range of 1 - 9 (because default random is  in the range of 0 - std::RAND_MAX)
 	int rand1to9;
 	srand((unsigned)time(0));
 	rand1to9 = (rand() % 9) + 1;
@@ -13,14 +12,14 @@ int PVC::getRandNum1to9()
 	return rand1to9;
 }
 
-void PVC::drawBoardPVC(string P1Name, string computerName)
+void CVC::drawBoardCVC(string C1Name, string C2Name)
 {
 	system("cls");
 	cout << "\t\t===========" << endl;
 	cout << "\t\tTic Tac Toe" << endl;
 	cout << "\t\t===========" << endl << endl;
 
-	cout << "\t\t " << "[X] " << P1Name << endl << "\t\t  - vs. -" << endl << "\t\t " << "[O] " << computerName << endl << endl;
+	cout << "\t\t " << "[X] " << C1Name << endl << "\t\t  - vs. -" << endl << "\t\t " << "[O] " << C2Name << endl << endl;
 	cout << endl;
 
 	cout << "             " << "     |     |     " << endl;
@@ -39,7 +38,7 @@ void PVC::drawBoardPVC(string P1Name, string computerName)
 	cout << "             " << "     |     |     " << endl << endl;
 }
 
-int PVC::playPVC(int gameResult)
+int CVC::playCVC(int gameResult)
 {
 	system("cls");
 	clearBoard();
@@ -50,44 +49,37 @@ int PVC::playPVC(int gameResult)
 	cout << "\t\tTic Tac Toe" << endl;
 	cout << "\t\t===========" << endl << endl;
 
-	cout << "\t   Player Name Selection" << endl << endl << endl << endl;
-
-	string P1Name = "Player 1";  //Default name
-	string computerName = "Consol";
-	int P1Move = 1;
-	int computerMove = 2;
-
-	cout << "  Player 1 - Select your name: ";
-	cin >> P1Name;
+	string C1Name = "Microsoft";  //Default name
+	string C2Name = "Apple";
+	int C1Move = 1;
+	int C2Move = 2;
 
 	chrono::steady_clock::time_point begin = chrono::steady_clock::now(); ////// START TIME FOR GAME
 
 	do
 	{
-		drawBoardPVC(P1Name, computerName);
+		drawBoardCVC(C1Name, C2Name);
 		//player = (player % 2) ? 1 : 2;
 		if (player % 2)
 		{
 			player = 1; // Odd
-			cout << endl << "  Your move " << P1Name << ":  ";
-			cin >> choice;
+			choice = getRandNum1to9();
+			cout << endl << "  Your move " << C1Name << ":  ";
+			Sleep(500);
 		}
 		else
 		{
 			player = 2;
 			choice = getRandNum1to9();
-			cout << endl << "  Your move " << computerName << ":  " << choice;
+			cout << endl << "  Your move " << C2Name << ":  " << choice;
 			Sleep(500);
 		}
 
-		/*cout << "\nPlayer " << player << ", enter a number:  ";
-		cin >> choice;*/
-
-		if (player == 1 && player == P1Move)
+		if (player == 1 && player == C1Move)
 		{
 			playerMove = 'X';
 		}
-		else if (player == 2 && player == computerMove)
+		else if (player == 2 && player == C2Move)
 		{
 			playerMove = 'O';
 		}
@@ -154,7 +146,7 @@ int PVC::playPVC(int gameResult)
 
 	} while (i == -1);
 
-	drawBoardPVC(P1Name, computerName);
+	drawBoardCVC(C1Name, C2Name);
 
 	string winnerName;
 
@@ -162,13 +154,13 @@ int PVC::playPVC(int gameResult)
 	{
 		if (playerMove == 'X')
 		{
-			cout << endl << "  " << P1Name << " you are the winner!";
-			winnerName = P1Name;
+			cout << endl << "  " << C1Name << " you are the winner!";
+			winnerName = C1Name;
 		}
 		else
 		{
-			cout << endl << "  " << computerName << " you are the winner!";
-			winnerName = computerName;
+			cout << endl << "  " << C2Name << " you are the winner!";
+			winnerName = C2Name;
 		}
 	}
 	else
@@ -181,7 +173,7 @@ int PVC::playPVC(int gameResult)
 	winnerTime = chrono::duration_cast<chrono::seconds>(end - begin).count();
 	cout << endl << endl << "  " << winnerName << " took " << chrono::duration_cast<chrono::seconds>(end - begin).count() << " seconds to win!" << endl;
 
-	PVC restart;
+	CVC restart;
 	char rematch = ' ';
 	MenuFunctions backToMenu;
 
@@ -190,15 +182,15 @@ int PVC::playPVC(int gameResult)
 	if (rematch == 'y')
 	{
 		system("cls");
-		restart.playPVC(gameResult);
+		restart.playCVC(gameResult);
 		restart.clearBoard();
-		restart.drawBoardPVC(P1Name, computerName);
+		restart.drawBoardCVC(C1Name, C2Name);
 	}
 	else
 	{
 		system("cls");
 		backToMenu.displayMenuScreen();
 	}
-	
+
 	return gameResult;
 }
