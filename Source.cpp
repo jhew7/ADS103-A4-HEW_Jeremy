@@ -22,9 +22,9 @@ using namespace std;
 // MAIN PROGRAM 
 int main()
 {
-	MenuFunctions start;
+	MenuFunctions startGame;
 
-	start.menuChoices();
+	startGame.menuChoices();
 	
 	return 0;
 }

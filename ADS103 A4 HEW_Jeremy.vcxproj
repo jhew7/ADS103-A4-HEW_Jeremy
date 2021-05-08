@@ -142,6 +142,7 @@
     <ClCompile Include="MenuFunctions.cpp" />
     <ClCompile Include="PVC.cpp" />
     <ClCompile Include="PVP.cpp" />
+    <ClCompile Include="Score.cpp" />
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <ItemGroup>

@@ -1,4 +1,6 @@
+#include <chrono>		//time
 #include "PVC.h"
+#include "MenuFunctions.h"
 
 int PVC::getRandNum1to9()
 {
@@ -18,7 +20,7 @@ void PVC::drawBoardPVC(string P1Name, string computerName)
 	cout << "\t\tTic Tac Toe" << endl;
 	cout << "\t\t===========" << endl << endl;
 
-	cout << "\t\t  " << P1Name << " [X]" << endl << "\t\t  - vs. -" << endl << "\t\t " << computerName << " [O]" << endl << endl;
+	cout << "\t\t " << "[X] " << P1Name << endl << "\t\t  - vs. -" << endl << "\t\t " << "[O] " << computerName << endl << endl;
 	cout << endl;
 
 	cout << "             " << "     |     |     " << endl;
@@ -58,7 +60,7 @@ int PVC::playPVC(int gameResult)
 	cout << "  Player 1 - Select your name: ";
 	cin >> P1Name;
 
-	cout << "Hello " << P1Name << " & " << computerName << " , let's play some Tic Tac Toe!";
+	chrono::steady_clock::time_point begin = chrono::steady_clock::now(); ////// START TIME FOR GAME
 
 	do
 	{
@@ -75,7 +77,7 @@ int PVC::playPVC(int gameResult)
 			player = 2;
 			choice = getRandNum1to9();
 			cout << endl << "  Your move " << computerName << ":  " << choice;
-			Sleep(1200);
+			Sleep(500);
 		}
 
 		/*cout << "\nPlayer " << player << ", enter a number:  ";
@@ -143,10 +145,11 @@ int PVC::playPVC(int gameResult)
 		{
 			cout << endl << "Invalid move!";
 
-			Sleep(800);
+			Sleep(500);
+			cin.ignore();
+			cin >> choice;
 			player--;
-			//cin.ignore();
-			//cin.get();
+			// couldn't figure out how to stop it crashing if a letter is input and not a number
 		}
 
 		i = checkWin(gameResult);
@@ -156,17 +159,19 @@ int PVC::playPVC(int gameResult)
 
 	drawBoardPVC(P1Name, computerName);
 
+	string winnerName;
+
 	if (i == 1)
 	{
 		if (playerMove == 'X')
 		{
 			cout << endl << "  " << P1Name << " you are the winner!";
-			cout << endl << endl << "Hit enter to return to the Main Menu.";
+			winnerName = P1Name;
 		}
 		else
 		{
 			cout << endl << "  " << computerName << " you are the winner!";
-			cout << endl << endl << "Hit enter to return to the Main Menu.";
+			winnerName = computerName;
 		}
 	}
 	else
@@ -174,7 +179,29 @@ int PVC::playPVC(int gameResult)
 		cout << " DRAW!";
 	}
 
-	cin.ignore();
-	cin.get();
+	chrono::steady_clock::time_point end = chrono::steady_clock::now(); // ENDS GAME TIME
+	int winnerTime;
+	winnerTime = chrono::duration_cast<chrono::seconds>(end - begin).count();
+	cout << endl << endl << "  " << winnerName << " took " << chrono::duration_cast<chrono::seconds>(end - begin).count() << " seconds to win!" << endl;
+
+	PVP restart;
+	char rematch = ' ';
+	MenuFunctions backToMenu;
+
+	cout << endl << "  Play Again? (y/n): ";
+	cin >> rematch;
+	if (rematch == 'y')
+	{
+		system("cls");
+		restart.playPVP(gameResult);
+		restart.clearBoard();
+		restart.drawBoardPVP(P1Name, computerName);
+	}
+	else
+	{
+		system("cls");
+		backToMenu.displayMenuScreen();
+	}
+	
 	return gameResult;
 }

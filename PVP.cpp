@@ -1,4 +1,8 @@
+#include <chrono>		//time
 #include "PVP.h"
+#include "MenuFunctions.h"
+
+using namespace std;
 
 void PVP::drawBoardPVP(string P1Name, string P2Name)
 {
@@ -7,7 +11,7 @@ void PVP::drawBoardPVP(string P1Name, string P2Name)
 	cout << "\t\tTic Tac Toe" << endl;
 	cout << "\t\t===========" << endl << endl;
 
-	cout << "\t\t  " << P1Name << " [X]" << endl << "\t\t  - vs. -" << endl << "\t\t " << P2Name << " [O]" << endl << endl;
+	cout << "\t\t " << "[X] " << P1Name << endl << "\t\t  - vs. -" << endl << "\t\t " << "[O] " << P2Name << endl << endl;
 	cout << endl;
 
 	cout << "             " << "     |     |     " << endl;
@@ -109,7 +113,7 @@ int PVP::playPVP(int gameResult)
 	cout << "  Player 2 - Select your name: ";
 	cin >> P2Name;
 
-	cout << "Hello " << P1Name << " & " << P2Name << " , let's play some Tic Tac Toe!";
+	chrono::steady_clock::time_point begin = chrono::steady_clock::now(); ////// START TIME FOR GAME
 
 	do
 	{
@@ -189,6 +193,7 @@ int PVP::playPVP(int gameResult)
 			player--;
 			cin.ignore();
 			cin.get();
+			// couldn't figure out how to stop it crashing if a letter is input and not a number
 		}
 
 		i = checkWin(gameResult);
@@ -198,17 +203,19 @@ int PVP::playPVP(int gameResult)
 
 	drawBoardPVP(P1Name, P2Name);
 
+	string winnerName;
+
 	if (i == 1)
 	{
 		if (playerMove == 'X') // If last player move was " X " then P1Name is winner
 		{
 			cout << endl << "  " << P1Name << " you are the winner!";
-			cout << endl << endl << "Hit enter to return to the Main Menu.";
+			winnerName = P1Name;
 		}
 		else // If last player move was NOT " X " then P2Name is winner
 		{
 			cout << endl << "  " << P2Name << " you are the winner!";
-			cout << endl << endl << "Hit enter to return to the Main Menu.";
+			winnerName = P2Name;
 		}
 	}
 	else
@@ -216,7 +223,26 @@ int PVP::playPVP(int gameResult)
 		cout << " DRAW!";
 	}
 
-	cin.ignore();
-	cin.get();
+	chrono::steady_clock::time_point end = chrono::steady_clock::now(); // ENDS GAME TIME
+	int winnerTime;
+	winnerTime = chrono::duration_cast<chrono::seconds>(end - begin).count();
+	cout << endl << endl << "  " << winnerName << " took " << chrono::duration_cast<chrono::seconds>(end - begin).count() << " seconds to win!" << endl;
+
+	PVP restart;
+	char rematch = ' ';
+	MenuFunctions backToMenu;
+	
+	cout << endl << "  Play Again? (y/n): ";
+	cin >> rematch;
+	if (rematch == 'y')
+	{
+		system("cls");
+		restart.playPVP(gameResult);
+		restart.clearBoard();
+		restart.drawBoardPVP(P1Name, P2Name);
+	}
+	else (backToMenu.displayMenuScreen());
+
+	
 	return gameResult;
 }
